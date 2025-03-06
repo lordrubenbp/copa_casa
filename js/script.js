@@ -2,10 +2,10 @@
 // Configuración
 const CONFIG = {
     // ID de la hoja de Google Sheets
-    sheetId: '17-0KUikEdMoseLPJOqLJFQ9lNCjCziImRuHO4jJX02c',
+    sheetId: process.env.sheetId,
     
     // API Key de Google Sheets
-    apiKey: 'XXXXXXX',
+    apiKey: process.env.apiKey,
     
     // Rango de datos que queremos obtener de la hoja
     range: 'Resultados Finales!A1:Z100',
