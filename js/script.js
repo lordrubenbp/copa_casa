@@ -1,11 +1,23 @@
 
 // Configuración
+
+fetch('/.netlify/functions/googleSheet')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    // Aquí procesa los datos recibidos
+  })
+  .catch(error => console.error('Error:', error));
 const CONFIG = {
     // ID de la hoja de Google Sheets
-    sheetId: process.env.sheetId,
+    //sheetId: process.env.sheetId,
     
     // API Key de Google Sheets
-    apiKey: process.env.apiKey,
+    //apiKey: process.env.apiKey,
+
+    // Elimina o comenta esta línea:
+// const apiKey = process.env.API_KEY;
+
     
     // Rango de datos que queremos obtener de la hoja
     range: 'Resultados Finales!A1:Z100',
