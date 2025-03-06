@@ -1,13 +1,7 @@
 
 // Configuración
 
-fetch('/.netlify/functions/googleSheet')
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    // Aquí procesa los datos recibidos
-  })
-  .catch(error => console.error('Error:', error));
+
 const CONFIG = {
     // ID de la hoja de Google Sheets
     //sheetId: process.env.sheetId,
@@ -17,8 +11,6 @@ const CONFIG = {
 
     // Elimina o comenta esta línea:
 // const apiKey = process.env.API_KEY;
-
-    
     // Rango de datos que queremos obtener de la hoja
     range: 'Resultados Finales!A1:Z100',
     
@@ -264,93 +256,92 @@ function initializeApp() {
 
 // Obtiene los datos de la API de Google Sheets
 function fetchData() {
-    // URL de la API de Google Sheets
-    const apiUrl = `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.sheetId}/values/${CONFIG.range}?key=${CONFIG.apiKey}`;
-    
+
     // Mostrar indicador de carga
     document.getElementById('refresh-btn').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Actualizando...';
+
+   fetch('/.netlify/functions/googleSheet')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
     
-    // Realizar la petición a la API
-    fetch(apiUrl)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Error HTTP: ${response.status}`);
+    processData(data);
+            
+    // Actualizar la interfaz con los nuevos datos
+    updateUI();
+    
+    // Restaurar el botón de actualizar
+    document.getElementById('refresh-btn').innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar';
+    
+    // Mostrar mensaje de éxito
+    const footer = document.querySelector('footer p');
+    if (footer) {
+        const fechaActual = new Date();
+        footer.innerHTML = `Copa de la Casa © ${fechaActual.getFullYear()} - Datos actualizados de la hoja: <a href="https://docs.google.com/spreadsheets/d/17-0KUikEdMoseLPJOqLJFQ9lNCjCziImRuHO4jJX02c" target="_blank">Proyecto piloto</a> - Última actualización: ${fechaActual.toLocaleString()}`;
+    }
+    
+    // Añadir un mensaje de estado temporal
+    const statusMessage = document.createElement('div');
+    statusMessage.className = 'status-message success';
+    statusMessage.innerHTML = '<i class="fas fa-check-circle"></i> Datos actualizados correctamente (leyendo celdas específicas: GAP:D2, MIM:D5, PUB:D7, TUR:D9)';
+    document.body.appendChild(statusMessage);
+    
+    // Eliminar el mensaje después de 3 segundos
+    setTimeout(() => {
+        statusMessage.classList.add('fade-out');
+        setTimeout(() => {
+            if (statusMessage.parentNode) {
+                statusMessage.parentNode.removeChild(statusMessage);
             }
-            return response.json();
-        })
-        .then(data => {
-            // Procesar los datos recibidos
-            processData(data);
-            
-            // Actualizar la interfaz con los nuevos datos
-            updateUI();
-            
-            // Restaurar el botón de actualizar
-            document.getElementById('refresh-btn').innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar';
-            
-            // Mostrar mensaje de éxito
-            const footer = document.querySelector('footer p');
-            if (footer) {
-                const fechaActual = new Date();
-                footer.innerHTML = `Copa de la Casa © ${fechaActual.getFullYear()} - Datos actualizados de la hoja: <a href="https://docs.google.com/spreadsheets/d/17-0KUikEdMoseLPJOqLJFQ9lNCjCziImRuHO4jJX02c" target="_blank">Proyecto piloto</a> - Última actualización: ${fechaActual.toLocaleString()}`;
+        }, 500);
+    }, 3000);
+  })
+  .catch(error => {
+    console.error('Error al obtener los datos:', error);
+    
+    // Mensaje de error en la interfaz
+    const housesContainer = document.getElementById('houses-container');
+    housesContainer.innerHTML = `
+        <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>No se pudieron cargar los datos de la hoja de cálculo.</p>
+            <p>El sistema intentará leer estas celdas (si existen):</p>
+            <ul>
+                <li>GAP: celda D2</li>
+                <li>MIM: celda D5</li>
+                <li>PUB: celda D7</li>
+                <li>TUR: celda D9</li>
+            </ul>
+            <p>Si alguna celda no existe, se leerá como 0 puntos.</p>
+            <p class="error-details">${error.message}</p>
+        </div>
+    `;
+    
+    // Restaurar el botón de actualizar
+    document.getElementById('refresh-btn').innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar';
+    
+    // Añadir mensaje de estado de error
+    const statusMessage = document.createElement('div');
+    statusMessage.className = 'status-message error';
+    statusMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error al cargar los datos. Revisa la configuración.';
+    document.body.appendChild(statusMessage);
+    
+    // Eliminar el mensaje después de 5 segundos
+    setTimeout(() => {
+        statusMessage.classList.add('fade-out');
+        setTimeout(() => {
+            if (statusMessage.parentNode) {
+                statusMessage.parentNode.removeChild(statusMessage);
             }
-            
-            // Añadir un mensaje de estado temporal
-            const statusMessage = document.createElement('div');
-            statusMessage.className = 'status-message success';
-            statusMessage.innerHTML = '<i class="fas fa-check-circle"></i> Datos actualizados correctamente (leyendo celdas específicas: GAP:D2, MIM:D5, PUB:D7, TUR:D9)';
-            document.body.appendChild(statusMessage);
-            
-            // Eliminar el mensaje después de 3 segundos
-            setTimeout(() => {
-                statusMessage.classList.add('fade-out');
-                setTimeout(() => {
-                    if (statusMessage.parentNode) {
-                        statusMessage.parentNode.removeChild(statusMessage);
-                    }
-                }, 500);
-            }, 3000);
-        })
-        .catch(error => {
-            console.error('Error al obtener los datos:', error);
-            
-            // Mensaje de error en la interfaz
-            const housesContainer = document.getElementById('houses-container');
-            housesContainer.innerHTML = `
-                <div class="error-message">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>No se pudieron cargar los datos de la hoja de cálculo.</p>
-                    <p>El sistema intentará leer estas celdas (si existen):</p>
-                    <ul>
-                        <li>GAP: celda D2</li>
-                        <li>MIM: celda D5</li>
-                        <li>PUB: celda D7</li>
-                        <li>TUR: celda D9</li>
-                    </ul>
-                    <p>Si alguna celda no existe, se leerá como 0 puntos.</p>
-                    <p class="error-details">${error.message}</p>
-                </div>
-            `;
-            
-            // Restaurar el botón de actualizar
-            document.getElementById('refresh-btn').innerHTML = '<i class="fas fa-sync-alt"></i> Actualizar';
-            
-            // Añadir mensaje de estado de error
-            const statusMessage = document.createElement('div');
-            statusMessage.className = 'status-message error';
-            statusMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Error al cargar los datos. Revisa la configuración.';
-            document.body.appendChild(statusMessage);
-            
-            // Eliminar el mensaje después de 5 segundos
-            setTimeout(() => {
-                statusMessage.classList.add('fade-out');
-                setTimeout(() => {
-                    if (statusMessage.parentNode) {
-                        statusMessage.parentNode.removeChild(statusMessage);
-                    }
-                }, 500);
-            }, 5000);
-        });
+        }, 500);
+    }, 5000);
+});
+
+   
+    
+    
+    
+    
 }
 
 // Procesa los datos recibidos de la API
