@@ -6,7 +6,7 @@ const { default: fetch } = await import('node-fetch');
 
   const apiKey = process.env.apiKey; // Se obtiene la API key desde las variables de entorno configuradas en Netlify
   const spreadsheetId = process.env.sheetId; // Reemplaza con el ID real de tu hoja de Google Sheets
-  const range = "Sheet1!A1:D10"; // Ajusta el rango según lo que necesites
+  const range = 'Resultados Finales!A1:Z100';
 
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`;
 
