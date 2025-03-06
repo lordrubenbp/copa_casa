@@ -1,0 +1,118 @@
+/* Barra de Navegación */
+.navbar {
+    background-color: #fff;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 0.5rem 0;
+    border-bottom: 3px solid var(--color-primary);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2rem;
+}
+
+.nav-logo a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo a:hover {
+    transform: scale(1.05);
+}
+
+.nav-logo h3 {
+    color: var(--color-primary);
+    font-weight: 600;
+    font-size: 1.5rem;
+    position: relative;
+    display: inline-block;
+}
+
+.nav-logo h3::after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 2px;
+    background: var(--color-primary);
+    transition: width 0.3s;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+}
+
+.nav-logo h3:hover::after {
+    width: 100%;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links li a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 20px;
+}
+
+.nav-links li a i {
+    font-size: 1.1rem;
+}
+
+.nav-links li a:hover {
+    color: var(--color-primary);
+    transform: translateY(-2px);
+    background-color: rgba(108, 99, 255, 0.1);
+}
+
+/* Efectos especiales para enlaces según tema de las casas */
+.nav-links li:nth-child(1) a:hover {
+    color: var(--color-gap); /* Rojo para normas */
+    background-color: rgba(230, 57, 70, 0.1);
+}
+
+.nav-links li:nth-child(2) a:hover {
+    color: var(--color-tur); /* Azul para profesores */
+    background-color: rgba(33, 158, 188, 0.1);
+}
+
+.nav-links li:nth-child(3) a:hover {
+    color: var(--color-mim); /* Naranja para eventos */
+    background-color: rgba(251, 133, 0, 0.1);
+}
+
+/* Responsive para la barra de navegación */
+@media screen and (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .nav-links {
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .nav-links li a {
+        justify-content: center;
+    }
+} 

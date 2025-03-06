@@ -1,0 +1,247 @@
+/* Estilos específicos para la página de normas */
+.rules-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.rules-container h1 {
+    text-align: center;
+    color: var(--color-primary);
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.rules-container h1::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(to right, var(--color-gap), var(--color-primary), var(--color-tur), var(--color-mim));
+    border-radius: 2px;
+}
+
+.rules-intro {
+    background-color: rgba(108, 99, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+    border-left: 4px solid var(--color-primary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+.rules-section {
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.rules-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rules-section h2 i {
+    font-size: 1.5rem;
+}
+
+.gain-points h2 {
+    color: #2e933c;
+}
+
+.gain-points h2 i {
+    color: #2e933c;
+}
+
+.lose-points h2 {
+    color: #d62828;
+}
+
+.lose-points h2 i {
+    color: #d62828;
+}
+
+.additional-info h2 {
+    color: var(--color-primary);
+}
+
+.additional-info h2 i {
+    color: var(--color-primary);
+}
+
+.rule-category {
+    margin-bottom: 1.5rem;
+    padding: 1.2rem;
+    border-radius: var(--border-radius);
+    background-color: #f8f9fa;
+    border-left: 4px solid #ddd;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.rule-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.gain-points .rule-category {
+    border-left-color: #2e933c;
+}
+
+.lose-points .rule-category {
+    border-left-color: #d62828;
+}
+
+.additional-info .rule-category {
+    border-left-color: var(--color-primary);
+}
+
+.rule-category h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    color: var(--color-text);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.rule-category h3 i {
+    color: var(--color-primary);
+}
+
+.gain-points .rule-category h3 i {
+    color: #2e933c;
+}
+
+.lose-points .rule-category h3 i {
+    color: #d62828;
+}
+
+.rule-category ul {
+    list-style: none;
+    padding-left: 1.5rem;
+}
+
+.rule-category li {
+    margin-bottom: 0.8rem;
+    position: relative;
+    padding-left: 1.5rem;
+    line-height: 1.6;
+}
+
+.rule-category li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--color-primary);
+    font-weight: bold;
+}
+
+.gain-points .rule-category li::before {
+    color: #2e933c;
+}
+
+.lose-points .rule-category li::before {
+    color: #d62828;
+}
+
+.points {
+    font-weight: 700;
+    color: #2e933c;
+    background-color: rgba(46, 147, 60, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.points.negative {
+    color: #d62828;
+    background-color: rgba(214, 40, 40, 0.1);
+}
+
+.rules-footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background-color: var(--color-primary);
+    color: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.rules-footer h3 {
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.rules-footer i {
+    font-size: 2rem;
+    color: #ffd700;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.rules-container {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.rule-category {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+}
+
+.rule-category:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.rule-category:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.rule-category:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .rules-container {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .rules-container h1 {
+        font-size: 2rem;
+    }
+    
+    .rules-section h2 {
+        font-size: 1.5rem;
+    }
+    
+    .rule-category h3 {
+        font-size: 1.2rem;
+    }
+    
+    .rules-footer h3 {
+        font-size: 1.5rem;
+    }
+} 
