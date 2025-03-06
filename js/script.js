@@ -63,27 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
     showInfoMessage();
     
     
-    // Verificar si tenemos una API key válida
-    if (CONFIG.apiKey && CONFIG.apiKey !== 'TU_API_KEY_DE_GOOGLE') {
-        // Obtener datos reales de la API
+    
         fetchData();
-        
-        // Configurar el botón de actualizar para datos reales
-        document.getElementById('refresh-btn').addEventListener('click', fetchData);
-    } else {
-        // Cargar datos de prueba si no hay API key configurada
-        loadMockData();
-        
-        // Mostrar mensaje de que se están usando datos de prueba
-        const refreshBtn = document.getElementById('refresh-btn');
-        refreshBtn.innerHTML = '<i class="fas fa-info-circle"></i> Usando datos de prueba';
-        refreshBtn.style.backgroundColor = '#f0ad4e';
-        
-        // Cambiar la funcionalidad del botón para mostrar un mensaje informativo
-        refreshBtn.addEventListener('click', function() {
-            alert('Para obtener datos reales, configura tu API key de Google Sheets en el archivo js/script.js');
-        });
-    }
+
+       
+    
 });
 
 // Muestra un mensaje informativo sobre el almacenamiento y comparación de puntuaciones
@@ -265,6 +249,8 @@ function fetchData() {
   .then(data => {
     console.log(data);
     
+    document.getElementById('refresh-btn').addEventListener('click', fetchData);
+    
     processData(data);
             
     // Actualizar la interfaz con los nuevos datos
@@ -297,6 +283,19 @@ function fetchData() {
     }, 3000);
   })
   .catch(error => {
+
+    // Cargar datos de prueba si no hay API key configurada
+    loadMockData();
+        
+    // Mostrar mensaje de que se están usando datos de prueba
+    const refreshBtn = document.getElementById('refresh-btn');
+    refreshBtn.innerHTML = '<i class="fas fa-info-circle"></i> Usando datos de prueba';
+    refreshBtn.style.backgroundColor = '#f0ad4e';
+    
+    // Cambiar la funcionalidad del botón para mostrar un mensaje informativo
+    refreshBtn.addEventListener('click', function() {
+        alert('Para obtener datos reales, configura tu API key de Google Sheets en el archivo js/script.js');
+    });
     console.error('Error al obtener los datos:', error);
     
     // Mensaje de error en la interfaz
