@@ -371,11 +371,18 @@ function processData(data) {
         // Función auxiliar para leer una celda de forma segura
         function leerCeldaSegura(fila, columna, casa) {
             if (data.values.length > fila && data.values[fila] && data.values[fila].length > columna) {
-                const valor = data.values[fila][columna];
+                const valor = String(data.values[fila][columna]).trim();
                 console.log(`Celda para ${casa} (fila ${fila+1}, columna ${columna+1}):`, valor);
                 
-                if (!isNaN(parseInt(valor))) {
-                    return parseInt(valor);
+                // Rechazar valores que contengan el símbolo de porcentaje
+                if (valor.includes('%')) {
+                    console.log(`La celda para ${casa} contiene un porcentaje y será ignorada:`, valor);
+                    return 0;
+                }
+                
+                const numeroParseado = parseInt(valor);
+                if (!isNaN(numeroParseado)) {
+                    return numeroParseado;
                 } else {
                     console.log(`La celda para ${casa} no contiene un número válido:`, valor);
                 }
@@ -385,11 +392,12 @@ function processData(data) {
             return 0;
         }
         
-        // Leer cada casa individualmente, independientemente de si todas las filas existen
-        scores.GAP = leerCeldaSegura(2, 2, 'GAP');  // D2
-        scores.MIM = leerCeldaSegura(4, 2, 'MIM');  // D5
-        scores.PUB = leerCeldaSegura(6, 2, 'PUB');  // D7
-        scores.TUR = leerCeldaSegura(8, 2, 'TUR');  // D9
+        // Leer cada casa individualmente desde la columna D (índice 3)
+        // Los índices de fila son: fila hoja - 1 (porque el array empieza en 0)
+        scores.GAP = leerCeldaSegura(1, 3, 'GAP');  // D2 (fila 2, índice 1, columna D índice 3)
+        scores.MIM = leerCeldaSegura(3, 3, 'MIM');  // D4 (fila 4, índice 3, columna D índice 3)
+        scores.PUB = leerCeldaSegura(5, 3, 'PUB');  // D6 (fila 6, índice 5, columna D índice 3)
+        scores.TUR = leerCeldaSegura(7, 3, 'TUR');  // D8 (fila 8, índice 7, columna D índice 3)
         
         // Mostrar las puntuaciones leídas
         console.log('Puntuaciones leídas directamente:', scores);
