@@ -386,10 +386,10 @@ function processData(data) {
         }
         
         // Leer cada casa individualmente, independientemente de si todas las filas existen
-        scores.GAP = leerCeldaSegura(1, 3, 'GAP');  // D2
-        scores.MIM = leerCeldaSegura(4, 3, 'MIM');  // D5
-        scores.PUB = leerCeldaSegura(6, 3, 'PUB');  // D7
-        scores.TUR = leerCeldaSegura(8, 3, 'TUR');  // D9
+        scores.GAP = leerCeldaSegura(2, 2, 'GAP');  // D2
+        scores.MIM = leerCeldaSegura(4, 2, 'MIM');  // D5
+        scores.PUB = leerCeldaSegura(6, 2, 'PUB');  // D7
+        scores.TUR = leerCeldaSegura(8, 2, 'TUR');  // D9
         
         // Mostrar las puntuaciones leídas
         console.log('Puntuaciones leídas directamente:', scores);
